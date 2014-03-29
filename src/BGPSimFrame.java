@@ -13,5 +13,6 @@ public class BGPSimFrame extends JFrame {
 	
 	public static void main(String[] args) {
 		BGPSimFrame bsf = new BGPSimFrame();
+		System.out.println("TERABYTES!!!!");
 	}
 }
