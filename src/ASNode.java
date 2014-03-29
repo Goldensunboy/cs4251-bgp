@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ASNode {
 	private int ASNum;
@@ -29,21 +28,23 @@ public class ASNode {
 		ArrayList<ASNode> newPath2 = new ArrayList<ASNode>();
 		newPath1.add(node);
 		newPath2.add(this);
-		Map<Integer, ArrayList<ASNode>> map = addNodeToTable(node);
+		Map<Integer, ArrayList<ASNode>> map1 = addNodeToTable(node,paths);
+		Map<Integer, ArrayList<ASNode>> map2 = addNodeToTable(node,node.getPaths());
 		paths.put(node.getASNum(), newPath1);
-		map.put(this.ASNum, newPath2);
-		node.setPathsCombine(map);
+		map1.put(this.ASNum, newPath2);
+		node.setPathsCombine(map1);
+		setPathsCombine(map2);
 		neighbors.add(node);
 		node.getNeighbors().add(this);
 
 	}
 
-	private Map<Integer, ArrayList<ASNode>> addNodeToTable(ASNode node) {
+	private Map<Integer, ArrayList<ASNode>> addNodeToTable(ASNode node,Map<Integer, ArrayList<ASNode>> paths) {
 		Map<Integer, ArrayList<ASNode>> map = new HashMap<Integer, ArrayList<ASNode>>();
 		for (int currentASnum : paths.keySet()) {
 			ArrayList<ASNode> list = new ArrayList<ASNode>();
 			list.addAll(paths.get(currentASnum));
-			list.add(0, this);
+			list.add(0, node);
 			map.put(currentASnum, list);
 		}
 		// System.out.println(this.ASNum + "->" + node.getASNum());
@@ -163,7 +164,7 @@ public class ASNode {
 
 		System.out.println("Connect AS4 to AS1");
 		ASNode node4 = new ASNode(4);
-		node1.connect(node4);
+		node4.connect(node1);
 		System.out.println("PATHS of AS1");
 		node1.pathStrings();
 		System.out.println("Neighbors of AS1");
