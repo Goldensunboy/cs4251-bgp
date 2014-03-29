@@ -1,3 +1,6 @@
+/* Andrew Wilder *
+ * Ilyssa Widen  */
+
 import java.util.Map;
 import java.util.ArrayList;
 
