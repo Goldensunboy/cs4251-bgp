@@ -2,7 +2,6 @@
  * Ilyssa Widen  */
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
@@ -18,9 +17,8 @@ public class BGPSimPanel extends JPanel {
 	public BGPMode mode;
 	
 	// Create a new simulation panel with a fixed size
-	public BGPSimPanel(int w, int h) {
+	public BGPSimPanel() {
 		mode = BGPMode.EDIT;
-		setPreferredSize(new Dimension(w, h));
 	}
 
 	// Draw the components of the simulation area
@@ -29,12 +27,14 @@ public class BGPSimPanel extends JPanel {
 		// Clear the screen
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.BLUE);
+		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 		
 		// Display mode
-		g.drawString("Mode: " + (mode == BGPMode.EDIT ? "Edit" : "Simulate"), 10, 10);
+		g.setColor(Color.BLACK);
+		g.drawString("Mode: " + (mode == BGPMode.EDIT ? "Edit" : "Simulate"), 5, 15);
 		
 		// Draw the nodes
 		// TODO
 	}
 }
-
