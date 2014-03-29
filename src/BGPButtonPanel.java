@@ -1,8 +1,7 @@
 /* Andrew Wilder *
  * Ilyssa Widen  */
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,8 +23,8 @@ public class BGPButtonPanel extends JPanel {
 		
 		// Set the panel properties
 		bsp = new_bsp;
-		setLayout(new GridLayout(2, 1));
-		this.setSize(getWidth(), 100);
+		setLayout(new GridLayout(1, 2));
+		setPreferredSize(new Dimension(300, 50));
 		
 		// Create the buttons for changing the mode
 		editModeButton.addActionListener(new ActionListener() {
@@ -45,11 +44,5 @@ public class BGPButtonPanel extends JPanel {
 		// Add the buttons
 		add(editModeButton);
 		add(simulateButton);
-	}
-	
-	// Set the background for this panel to green
-	public void paintComponent(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 }
