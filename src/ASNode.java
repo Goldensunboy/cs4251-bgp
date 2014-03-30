@@ -76,20 +76,29 @@ public class ASNode {
 			list.addAll(path);
 			list.add(0, this);
 			for (ASNode tempNode : neighbors) {
-				if (tempNode.getPaths().containsKey(node.getASNum())) {
-					if (tempNode.getPaths().get(node.getASNum()).size() > path
-							.size()) {
+				if (tempNode.getASNum() != node.getASNum()) {
+					if (tempNode.getPaths().containsKey(node.getASNum())) {
+						if (tempNode.getPaths().get(node.getASNum()).size() > path
+								.size()) {
+							tempNode.getPaths().put(node.getASNum(), list);
+							tempNode.announce(node, list);
+						}
+					} else {
 						tempNode.getPaths().put(node.getASNum(), list);
-						tempNode.announce(node,list);
-					}
-				} else {
-					tempNode.getPaths().put(node.getASNum(), list);
-					tempNode.announce(node,list);
+						tempNode.announce(node, list);
 
+					}
 				}
-				
+
 			}
 		}
+
+	}
+
+	public void announce(ASNode node) {
+		ArrayList<ASNode> list = new ArrayList<ASNode>();
+		list.add(node);
+		announce(node, list);
 
 	}
 
@@ -162,6 +171,10 @@ public class ASNode {
 
 		ASNode node2 = new ASNode(2);
 		node1.connect(node2);
+		ArrayList<ASNode> list2 = new ArrayList<ASNode>();
+		list2.add(node2);
+		node1.announce(node2, list2);
+
 		System.out.println("PATHS of AS1");
 		node1.pathStrings();
 		System.out.println("Neighbors of AS1");
@@ -199,15 +212,14 @@ public class ASNode {
 		System.out.println("Neighbors of AS4");
 		node4.neighborsStrings();
 
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
 
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		
 		System.out.println("ANNOUNCE AS4 to AS1");
 		ArrayList<ASNode> list = new ArrayList<ASNode>();
 		list.add(node4);
-		node1.announce(node4,list);
+		node1.announce(node4, list);
 		System.out.println("PATHS of AS1");
 		node1.pathStrings();
 		System.out.println("Neighbors of AS1");
@@ -224,8 +236,7 @@ public class ASNode {
 		node4.pathStrings();
 		System.out.println("Neighbors of AS4");
 		node4.neighborsStrings();
-		
-		
+
 	}
 
 }
