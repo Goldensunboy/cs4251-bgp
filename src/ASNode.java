@@ -1,7 +1,6 @@
 /* Andrew Wilder *
  * Ilyssa Widen  */
 
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,35 +34,78 @@ public class ASNode {
 		ArrayList<ASNode> newPath2 = new ArrayList<ASNode>();
 		newPath1.add(node);
 		newPath2.add(this);
-		Map<Integer, ArrayList<ASNode>> map = addNodeToTable(node);
+		Map<Integer, ArrayList<ASNode>> map1 = addNodeToTable(node, paths);
+		Map<Integer, ArrayList<ASNode>> map2 = addNodeToTable(node,
+				node.getPaths());
 		paths.put(node.getASNum(), newPath1);
-		map.put(this.ASNum, newPath2);
-		node.setPathsCombine(map);
+		map1.put(this.ASNum, newPath2);
+		node.setPathsCombine(map1);
+		setPathsCombine(map2);
 		neighbors.add(node);
 		node.getNeighbors().add(this);
 
 	}
 
-	private Map<Integer, ArrayList<ASNode>> addNodeToTable(ASNode node) {
+	private Map<Integer, ArrayList<ASNode>> addNodeToTable(ASNode node,
+			Map<Integer, ArrayList<ASNode>> paths) {
 		Map<Integer, ArrayList<ASNode>> map = new HashMap<Integer, ArrayList<ASNode>>();
 		for (int currentASnum : paths.keySet()) {
 			ArrayList<ASNode> list = new ArrayList<ASNode>();
 			list.addAll(paths.get(currentASnum));
-			list.add(0, this);
+			list.add(0, node);
 			map.put(currentASnum, list);
 		}
-		// System.out.println(this.ASNum + "->" + node.getASNum());
-		// pathStrings(map);
+
 		return map;
 	}
 
-	public void announce(int ASNum, ArrayList<ASNode> path) {
-		for (ASNode neighbor : neighbors) {
-			ArrayList<ASNode> newPath = new ArrayList<ASNode>();
-			newPath.addAll(path);
-			path.add(neighbor);
-			neighbor.getPaths().put(ASNum, path);
+	public void setPathsCombine(Map<Integer, ArrayList<ASNode>> paths) {
+		for (int currASnum : paths.keySet()) {
+			if (this.paths.containsKey(currASnum)) {
+				if (paths.get(currASnum).size() < this.paths.get(currASnum)
+						.size()) {
+					this.paths.put(currASnum, paths.get(currASnum));
+
+				}
+			} else {
+				this.paths.put(currASnum, paths.get(currASnum));
+			}
 		}
+
+	}
+
+	public void announce(ASNode node, ArrayList<ASNode> path) {
+		if (neighbors.size() == 0) {
+			return;
+		} else {
+			ArrayList<ASNode> list = new ArrayList<ASNode>();
+			list.addAll(path);
+			list.add(0, this);
+			for (ASNode tempNode : neighbors) {
+				if (tempNode.getASNum() != node.getASNum()) {
+					if (tempNode.getPaths().containsKey(node.getASNum())) {
+						if (tempNode.getPaths().get(node.getASNum()).size() > path
+								.size()) {
+							tempNode.getPaths().put(node.getASNum(), list);
+							tempNode.announce(node, list);
+						}
+					} else {
+						tempNode.getPaths().put(node.getASNum(), list);
+						tempNode.announce(node, list);
+
+					}
+				}
+
+			}
+		}
+
+	}
+
+	public void announce(ASNode node) {
+		ArrayList<ASNode> list = new ArrayList<ASNode>();
+		list.add(node);
+		announce(node, list);
+
 	}
 
 	public int getASNum() {
@@ -88,21 +130,6 @@ public class ASNode {
 
 	public void setPaths(Map<Integer, ArrayList<ASNode>> paths) {
 		this.paths = paths;
-	}
-
-	public void setPathsCombine(Map<Integer, ArrayList<ASNode>> paths) {
-		for (int currASnum : paths.keySet()) {
-			if (this.paths.containsKey(currASnum)) {
-				if (paths.get(currASnum).size() < this.paths.get(currASnum)
-						.size()) {
-					this.paths.put(currASnum, paths.get(currASnum));
-
-				}
-			} else {
-				this.paths.put(currASnum, paths.get(currASnum));
-			}
-		}
-
 	}
 
 	public void pathStrings(Map<Integer, ArrayList<ASNode>> paths) {
@@ -150,6 +177,10 @@ public class ASNode {
 
 		ASNode node2 = new ASNode(2);
 		node1.connect(node2);
+		ArrayList<ASNode> list2 = new ArrayList<ASNode>();
+		list2.add(node2);
+		node1.announce(node2, list2);
+
 		System.out.println("PATHS of AS1");
 		node1.pathStrings();
 		System.out.println("Neighbors of AS1");
@@ -169,7 +200,32 @@ public class ASNode {
 
 		System.out.println("Connect AS4 to AS1");
 		ASNode node4 = new ASNode(4);
-		node1.connect(node4);
+		node4.connect(node1);
+		System.out.println("PATHS of AS1");
+		node1.pathStrings();
+		System.out.println("Neighbors of AS1");
+		node1.neighborsStrings();
+		System.out.println("PATHS of AS5");
+		node5.pathStrings();
+		System.out.println("Neighbors of AS5");
+		node5.neighborsStrings();
+		System.out.println("PATHS of AS2");
+		node2.pathStrings();
+		System.out.println("Neighbors of AS2");
+		node2.neighborsStrings();
+		System.out.println("PATHS of AS4");
+		node4.pathStrings();
+		System.out.println("Neighbors of AS4");
+		node4.neighborsStrings();
+
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+
+		System.out.println("ANNOUNCE AS4 to AS1");
+		ArrayList<ASNode> list = new ArrayList<ASNode>();
+		list.add(node4);
+		node1.announce(node4, list);
 		System.out.println("PATHS of AS1");
 		node1.pathStrings();
 		System.out.println("Neighbors of AS1");
