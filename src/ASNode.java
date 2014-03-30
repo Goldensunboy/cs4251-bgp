@@ -5,12 +5,11 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ASNode {
-	private int ASNum;
-	private Map<Integer, ArrayList<ASNode>> paths;
-	private List<ASNode> neighbors;
+	public int ASNum, x, y;
+	public Map<Integer, ArrayList<ASNode>> paths;
+	public List<ASNode> neighbors;
 
 	public ASNode(int ASNum, Map<Integer, ArrayList<ASNode>> paths,
 			List<ASNode> neighbors) {
@@ -22,6 +21,13 @@ public class ASNode {
 	public ASNode(int ASNum) {
 		this(ASNum, new HashMap<Integer, ArrayList<ASNode>>(),
 				new ArrayList<ASNode>());
+	}
+	
+	public ASNode(int ASNum, int new_x, int new_y) {
+		this(ASNum, new HashMap<Integer, ArrayList<ASNode>>(),
+				new ArrayList<ASNode>());
+		x = new_x;
+		y = new_y;
 	}
 
 	public void connect(ASNode node) {
