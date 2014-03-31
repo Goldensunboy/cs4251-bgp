@@ -19,6 +19,9 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 	private static final double NodeSize = 20,
             LineSize = 5;
 	public int ascounter;
+	
+	// Link to the table panel for showing node info
+	BGPTablePanel btp;
 
 	// Enumeration of the mode types
 	public static enum BGPMode {
@@ -31,7 +34,8 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 	// List of ASNodes used in the simulator
 	public ArrayList<ASNode> nodeList;
 	public ASNode currSelected;
-	private int selOffX, selOffY;
+	private ASNode currHover;
+	private int selOffX, selOffY, mdx, mdy;
 	
 	// Create a new simulation panel with a fixed size
 	public BGPSimPanel() {
@@ -40,6 +44,7 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 		mode = BGPMode.EDIT;
 		nodeList = new ArrayList<ASNode>();
 		currSelected = null;
+		currHover = null;
 		ascounter = 0;
 		selOffX = 0;
 		selOffY = 0;
@@ -49,6 +54,10 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 		addMouseMotionListener(this);
 	}
 
+	public void set_btp(BGPTablePanel btp) {
+		this.btp = btp;
+	}
+	
 	// Draw the components of the simulation area
 	public void paintComponent(Graphics g) {
 		
@@ -118,6 +127,10 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 				} else if(clickedNode != null) {
 					
 					// Clicked a node
+					selOffX = clickedNode.x - e.getX();
+					selOffY = clickedNode.y - e.getY();
+					mdx = e.getX();
+					mdy = e.getY();
 					if(clickedNode == currSelected) {
 						currSelected = null;
 					} else if(currSelected == null) {
@@ -144,7 +157,7 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 					
 				}
 			}
-		} else if(mode == BGPMode.MOVE) {
+		}/* else if(mode == BGPMode.MOVE) {
 			if(currSelected == null) {
 				
 				// Select this node
@@ -157,26 +170,28 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 					}
 				}
 			}
-		} else if(mode == BGPMode.SIMULATE) {
+		}*/ else if(mode == BGPMode.SIMULATE) {
 			
 		}
 		repaint();
 	}
 	
 	public void mouseDragged(MouseEvent e) {
-		if(mode == BGPMode.MOVE) {
+		//if(mode == BGPMode.MOVE) {
 			if(currSelected != null) {
 				currSelected.x = e.getX() + selOffX;
 				currSelected.y = e.getY() + selOffY;
 			}
-		}
+		//}
 		repaint();
 	}
 	
 	public void mouseReleased(MouseEvent e) {
-		if(mode == BGPMode.MOVE) {
+		//if(mode == BGPMode.MOVE) {
+		if(Point.distance(e.getX(), e.getY(), mdx, mdy) > 5) {
 			currSelected = null;
 		}
+		//}
 		repaint();
 	}
 	
@@ -192,7 +207,22 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 		}
 	}
 
-	public void mouseMoved(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) {
+		// When the mouse moves, display info for the node under it
+		ASNode under = null;
+		for(ASNode node : nodeList) {
+			if(Point.distance(node.x, node.y, e.getX(), e.getY()) < NodeSize) {
+				under = node;
+				break;
+			}
+		}
+		if(under != currHover && currSelected == null) {
+			currHover = under;
+			btp.populateTable(under);
+			btp.repaint();
+		}
+	}
+	
 	public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}

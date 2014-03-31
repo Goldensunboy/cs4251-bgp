@@ -11,6 +11,20 @@ public class ASNode {
 	public Map<Integer, ArrayList<ASNode>> paths;
 	public List<ASNode> neighbors;
 
+	public static String PrintAS(List<ASNode> l) {
+		String s = "";
+		boolean b = false;
+		for(ASNode a : l) {
+			if(b) {
+				s += " ";
+			} else {
+				b = true;
+			}
+			s += a.ASNum;
+		}
+		return s;
+	}
+	
 	public ASNode(int ASNum, Map<Integer, ArrayList<ASNode>> paths,
 			List<ASNode> neighbors) {
 		this.ASNum = ASNum;

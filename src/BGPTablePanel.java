@@ -1,7 +1,17 @@
 /* Andrew Wilder *
  * Ilyssa Widen  */
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class BGPTablePanel extends JPanel {
 
@@ -11,6 +21,32 @@ public class BGPTablePanel extends JPanel {
 	private BGPSimPanel bsp;
 	
 	public BGPTablePanel(BGPSimPanel new_bsp) {
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		bsp = new_bsp;
+		bsp.set_btp(this);
+	}
+	
+	public void populateTable(ASNode a) {
+		removeAll();
+		if(a != null) {
+			for(Integer i : a.paths.keySet()) {
+				JPanel contents = new JPanel() {
+					private static final long serialVersionUID = 6276724221354522978L;
+					public void paintComponent(Graphics g) {
+						g.setColor(Color.BLACK);
+						g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+					}
+				};
+				//contents.setMinimumSize(new Dimension(300, 50));
+				contents.add(new JLabel("" + i + ":"));
+				JTextField t = new JTextField(ASNode.PrintAS(a.paths.get(i)));
+				t.setColumns(20);
+				contents.add(t);
+				contents.add(Box.createHorizontalGlue());
+				add(contents);
+			}
+			add(Box.createVerticalGlue());
+		}
+		revalidate();
 	}
 }
