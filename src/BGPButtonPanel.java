@@ -50,6 +50,7 @@ public class BGPButtonPanel extends JPanel {
 				bsp.currSelected = null;
 				bsp.ascounter = 0;
 				bsp.nodeList = new ArrayList<ASNode>();
+				bsp.btp.populateTable(null);
 				bsp.repaint();
 			}
 		});

@@ -11,10 +11,10 @@ public class ASNode {
 	public Map<Integer, ArrayList<ASNode>> paths;
 	public List<ASNode> neighbors;
 
-	public static String PrintAS(List<ASNode> l) {
+	public static String PrintAS(List<ASNode> nodes) {
 		String s = "";
 		boolean b = false;
-		for(ASNode a : l) {
+		for(ASNode a : nodes) {
 			if(b) {
 				s += " ";
 			} else {
