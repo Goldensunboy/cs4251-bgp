@@ -158,7 +158,7 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 	
 						// Add a new edge, if they aren't already connected
 						if(!clickedNode.neighbors.contains(currSelected)) {
-							clickedNode.connect(currSelected);
+							currSelected.connect(clickedNode);
 							currSelected = null;
 						}
 					}
