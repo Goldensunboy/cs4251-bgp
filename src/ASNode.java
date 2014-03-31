@@ -49,7 +49,7 @@ public class ASNode {
 		ArrayList<ASNode> newPath2 = new ArrayList<ASNode>();
 		newPath1.add(node);
 		newPath2.add(this);
-		Map<Integer, ArrayList<ASNode>> map1 = addNodeToTable(node, paths);
+		Map<Integer, ArrayList<ASNode>> map1 = addNodeToTable(this, paths);
 		Map<Integer, ArrayList<ASNode>> map2 = addNodeToTable(node,
 				node.getPaths());
 		paths.put(node.getASNum(), newPath1);
@@ -167,6 +167,10 @@ public class ASNode {
 		}
 		System.out.println("");
 
+	}
+	
+	public String toString(){
+		return ""+ASNum;
 	}
 
 	public static void main(String[] args) {
