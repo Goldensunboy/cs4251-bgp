@@ -2,10 +2,9 @@
  * Ilyssa Widen  */
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,7 +17,7 @@ public class BGPTablePanel extends JPanel {
 	private static final long serialVersionUID = 2906749678740103380L;
 	
 	// Link to the simulation panel for using node data
-	private BGPSimPanel bsp;
+	public BGPSimPanel bsp;
 	
 	public BGPTablePanel(BGPSimPanel new_bsp) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -37,10 +36,10 @@ public class BGPTablePanel extends JPanel {
 						g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 					}
 				};
-				//contents.setMinimumSize(new Dimension(300, 50));
+				contents.addMouseListener(new PanelHoverListener(bsp, i));
 				contents.add(new JLabel("" + i + ":"));
 				JTextField t = new JTextField(ASNode.PrintAS(a.paths.get(i)));
-				t.setColumns(20);
+				t.setColumns(15);
 				contents.add(t);
 				contents.add(Box.createHorizontalGlue());
 				add(contents);
@@ -48,5 +47,25 @@ public class BGPTablePanel extends JPanel {
 			add(Box.createVerticalGlue());
 		}
 		revalidate();
+	}
+	
+	private class PanelHoverListener implements MouseListener {
+		private BGPSimPanel bsp;
+		private Integer dest;
+		public PanelHoverListener(BGPSimPanel bsp, Integer i) {
+			this.bsp = bsp;
+			dest = i;
+		}
+		public void mouseEntered(MouseEvent e) {
+			bsp.currHover = dest;
+			bsp.repaint();
+		}
+		public void mouseExited(MouseEvent e) {
+			bsp.currHover = -1;
+			bsp.repaint();
+		}
+		public void mouseClicked(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
 	}
 }

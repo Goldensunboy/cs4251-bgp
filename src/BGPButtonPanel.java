@@ -17,7 +17,6 @@ public class BGPButtonPanel extends JPanel {
 	// Link to the simulation panel for changing the mode
 	private BGPSimPanel bsp;
 	private JButton editModeButton = new JButton("Edit");
-	private JButton moveModeButton = new JButton("Move");
 	private JButton simulateButton = new JButton("Simulate");
 	private JButton clearButton = new JButton("Clear");
 
@@ -34,13 +33,6 @@ public class BGPButtonPanel extends JPanel {
 		editModeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bsp.mode = BGPSimPanel.BGPMode.EDIT;
-				bsp.currSelected = null;
-				bsp.repaint();
-			}
-		});
-		moveModeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				bsp.mode = BGPSimPanel.BGPMode.MOVE;
 				bsp.currSelected = null;
 				bsp.repaint();
 			}
@@ -64,10 +56,7 @@ public class BGPButtonPanel extends JPanel {
 		
 		// Add the buttons
 		add(editModeButton);
-		//add(moveModeButton);
 		add(clearButton);
 		add(simulateButton);
-		//add(new JButton());
-		//add(new JButton());
 	}
 }
