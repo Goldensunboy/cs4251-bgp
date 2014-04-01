@@ -264,4 +264,14 @@ public class ASNode {
 
 	}
 
+	// Used for backwards referencing nodes by integer
+	public boolean equals(Object o) {
+		if(o instanceof Integer) {
+			return ASNum == (Integer) o;
+		} else if(o instanceof ASNode) {
+			return ASNum == ((ASNode) o).ASNum;
+		} else {
+			return false;
+		}
+	}
 }

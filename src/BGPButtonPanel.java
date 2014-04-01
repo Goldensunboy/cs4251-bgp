@@ -26,8 +26,8 @@ public class BGPButtonPanel extends JPanel {
 		// Set the panel properties
 		bsp = new_bsp;
 		setLayout(new GridLayout(1, 3));
-		setPreferredSize(new Dimension(300, 25));
-		setMaximumSize(new Dimension(300, 25));
+		setPreferredSize(new Dimension(250, 25));
+		setMaximumSize(new Dimension(250, 25));
 		
 		// Create the buttons for changing the mode
 		editModeButton.addActionListener(new ActionListener() {

@@ -142,7 +142,13 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 				
 				// If nothing was clicked, then create a new node
 				if(clickedNode == null && clickedLine == null) {
-					nodeList.add(new ASNode(++ascounter, e.getX(), e.getY()));
+					
+					// If a node was already selected, deselect it
+					if(currSelected == null) {
+						nodeList.add(new ASNode(++ascounter, e.getX(), e.getY()));
+					} else {
+						currSelected = null;
+					}
 				} else if(clickedNode != null) {
 					
 					// Clicked a node
@@ -159,8 +165,8 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 						// Add a new edge, if they aren't already connected
 						if(!clickedNode.neighbors.contains(currSelected)) {
 							currSelected.connect(clickedNode);
-							currSelected = null;
 						}
+						currSelected = null;
 					}
 				} else {
 					// Clicked an edge
@@ -178,6 +184,9 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 					
 				}
 			}
+			
+			// Update UI
+			mouseMoved(e);
 		} else if(mode == BGPMode.SIMULATE) {
 			
 		}
