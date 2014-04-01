@@ -69,7 +69,9 @@ public class ASNode {
 		/* Add each other as neighbors */
 		neighbors.add(node);
 		node.getNeighbors().add(this);
-
+		/* Announce each other's paths */
+		node.announce(this);
+		announce(node);
 	}
 
 	/*
@@ -139,13 +141,10 @@ public class ASNode {
 					} else {
 						tempNode.getPaths().put(temp.getASNum(), list);
 						tempNode.announce(node, list);
-
 					}
 				}
-
 			}
 		}
-
 	}
 
 	public void announce(ASNode node) {
