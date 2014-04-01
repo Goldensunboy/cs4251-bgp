@@ -150,6 +150,89 @@ public class ASNodeTests {
 		
 	}
 
+	@Test
+	public void Test6(){
+		ASNode node1 = new ASNode(1);
+		ASNode node2 = new ASNode(2);
+		ASNode node3 = new ASNode(3);
+
+		node1.connect(node2);
+		node1.connect(node3);
+		node2.connect(node3);
+		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
+		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
+		Map<Integer, List<ASNode>> map3 = new HashMap<Integer, List<ASNode>>();
+		List<ASNode> list1 = new ArrayList<ASNode>();
+		List<ASNode> list2 = new ArrayList<ASNode>();
+		List<ASNode> list3 = new ArrayList<ASNode>();
+		List<ASNode> list4 = new ArrayList<ASNode>();
+		List<ASNode> list5 = new ArrayList<ASNode>();
+		List<ASNode> list6 = new ArrayList<ASNode>();
+
+		list1.add(node2);
+		list2.add(node3);
+		list3.add(node1);
+		list4.add(node3);
+		list5.add(node1);
+		list6.add(node2);
+
+		map1.put(2, list1);
+		map1.put(3, list2);
+		map2.put(1, list3);
+		map2.put(3, list4);
+
+		map3.put(1, list5);
+		map3.put(2, list6);
+		node3.pathStrings();
+
+		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
+		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
+		Assert.assertTrue(mapCompare(node3.getPaths(), map3));
+	}
+	
+	@Test
+	public void Test7(){
+		ASNode node1 = new ASNode(1);
+		ASNode node2 = new ASNode(2);
+		ASNode node3 = new ASNode(3);
+
+		node1.connect(node2);
+		node2.connect(node3);
+		node3.connect(node1);
+		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
+		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
+		Map<Integer, List<ASNode>> map3 = new HashMap<Integer, List<ASNode>>();
+		List<ASNode> list1 = new ArrayList<ASNode>();
+		List<ASNode> list2 = new ArrayList<ASNode>();
+		List<ASNode> list3 = new ArrayList<ASNode>();
+		List<ASNode> list4 = new ArrayList<ASNode>();
+		List<ASNode> list5 = new ArrayList<ASNode>();
+		List<ASNode> list6 = new ArrayList<ASNode>();
+
+		list1.add(node2);
+		list2.add(node3);
+		list3.add(node1);
+		list4.add(node3);
+		list5.add(node1);
+		list6.add(node2);
+
+		map1.put(2, list1);
+		map1.put(3, list2);
+		map2.put(1, list3);
+		map2.put(3, list4);
+
+		map3.put(1, list5);
+		map3.put(2, list6);
+		node3.pathStrings();
+
+		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
+		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
+		Assert.assertTrue(mapCompare(node3.getPaths(), map3));
+	}
+	
+	
+	
+	
 	public boolean listCompare(List<ASNode> list1, List<ASNode> list2) {
 		if (list1.size() == list2.size()) {
 			for (int i = 0; i < list1.size(); i++) {

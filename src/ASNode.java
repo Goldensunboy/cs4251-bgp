@@ -14,8 +14,8 @@ public class ASNode {
 	public static String PrintAS(List<ASNode> nodes) {
 		String s = "";
 		boolean b = false;
-		for(ASNode a : nodes) {
-			if(b) {
+		for (ASNode a : nodes) {
+			if (b) {
 				s += " ";
 			} else {
 				b = true;
@@ -24,7 +24,7 @@ public class ASNode {
 		}
 		return s;
 	}
-	
+
 	public ASNode(int ASNum, Map<Integer, ArrayList<ASNode>> paths,
 			List<ASNode> neighbors) {
 		this.ASNum = ASNum;
@@ -83,7 +83,9 @@ public class ASNode {
 
 				}
 			} else {
-				this.paths.put(currASnum, paths.get(currASnum));
+				if (currASnum != ASNum) {
+					this.paths.put(currASnum, paths.get(currASnum));
+				}
 			}
 		}
 
@@ -168,9 +170,9 @@ public class ASNode {
 		System.out.println("");
 
 	}
-	
-	public String toString(){
-		return ""+ASNum;
+
+	public String toString() {
+		return "" + ASNum;
 	}
 
 	public static void main(String[] args) {
@@ -266,9 +268,9 @@ public class ASNode {
 
 	// Used for backwards referencing nodes by integer
 	public boolean equals(Object o) {
-		if(o instanceof Integer) {
+		if (o instanceof Integer) {
 			return ASNum == (Integer) o;
-		} else if(o instanceof ASNode) {
+		} else if (o instanceof ASNode) {
 			return ASNum == ((ASNode) o).ASNum;
 		} else {
 			return false;
