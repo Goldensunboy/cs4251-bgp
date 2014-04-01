@@ -8,6 +8,10 @@ import org.junit.Test;
 
 public class ASNodeTests {
 
+	/*
+	 * 1->2
+	 */
+
 	@Test
 	public void test1() {
 		ASNode node1 = new ASNode(1);
@@ -24,6 +28,10 @@ public class ASNodeTests {
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
 	}
+
+	/*
+	 * 2->1
+	 */
 
 	@Test
 	public void test2() {
@@ -42,6 +50,9 @@ public class ASNodeTests {
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
 	}
 
+	/*
+	 * 1->2 3->1
+	 */
 	@Test
 	public void test3() {
 		ASNode node1 = new ASNode(1);
@@ -78,6 +89,9 @@ public class ASNodeTests {
 
 	}
 
+	/*
+	 * 1->2 1->3
+	 */
 	@Test
 	public void test4() {
 		ASNode node1 = new ASNode(1);
@@ -112,9 +126,12 @@ public class ASNodeTests {
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
 		Assert.assertTrue(mapCompare(node3.getPaths(), map3));
 	}
-	
+
+	/*
+	 * 2->1 1->3
+	 */
 	@Test
-	public void test5(){
+	public void test5() {
 		ASNode node1 = new ASNode(1);
 		ASNode node2 = new ASNode(2);
 		ASNode node3 = new ASNode(3);
@@ -146,12 +163,15 @@ public class ASNodeTests {
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
 		Assert.assertTrue(mapCompare(node3.getPaths(), map3));
-		
-		
+
 	}
 
+	/*
+	 * 1->2 1->3 2->3
+	 */
+
 	@Test
-	public void Test6(){
+	public void Test6() {
 		ASNode node1 = new ASNode(1);
 		ASNode node2 = new ASNode(2);
 		ASNode node3 = new ASNode(3);
@@ -189,9 +209,12 @@ public class ASNodeTests {
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
 		Assert.assertTrue(mapCompare(node3.getPaths(), map3));
 	}
-	
+
+	/*
+	 * 1->2 2->3 3->1
+	 */
 	@Test
-	public void Test7(){
+	public void Test7() {
 		ASNode node1 = new ASNode(1);
 		ASNode node2 = new ASNode(2);
 		ASNode node3 = new ASNode(3);
@@ -229,10 +252,104 @@ public class ASNodeTests {
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
 		Assert.assertTrue(mapCompare(node3.getPaths(), map3));
 	}
-	
-	
-	
-	
+
+	/*
+	 * 1->2->3->4
+	 *  1->2 
+	 *  3->4 
+	 *  2->3
+	 */
+
+	@Test
+	public void Test8() {
+		ASNode node1 = new ASNode(1);
+		ASNode node2 = new ASNode(2);
+		ASNode node3 = new ASNode(3);
+		ASNode node4 = new ASNode(4);
+
+		node1.connect(node2);
+		node3.connect(node4);
+		node2.connect(node3);
+		node2.announce(node3);
+		node3.announce(node2);
+		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
+		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
+		Map<Integer, List<ASNode>> map3 = new HashMap<Integer, List<ASNode>>();
+		Map<Integer, List<ASNode>> map4 = new HashMap<Integer, List<ASNode>>();
+
+		ArrayList<ASNode> list1_2 = new ArrayList<ASNode>();
+		ArrayList<ASNode> list1_3 = new ArrayList<ASNode>();
+		ArrayList<ASNode> list1_4 = new ArrayList<ASNode>();
+
+		list1_2.add(node2);
+		
+		list1_3.add(node2);
+		list1_3.add(node3);
+
+		list1_4.add(node2);
+		list1_4.add(node3);
+		list1_4.add(node4);
+
+		map1.put(2, list1_2);
+		map1.put(3, list1_3);
+		map1.put(4, list1_4);
+
+		ArrayList<ASNode> list2_1 = new ArrayList<ASNode>();
+		ArrayList<ASNode> list2_3 = new ArrayList<ASNode>();
+		ArrayList<ASNode> list2_4 = new ArrayList<ASNode>();
+
+		list2_1.add(node1);
+		list2_3.add(node3);
+		list2_4.add(node3);
+		list2_4.add(node4);
+		map2.put(1, list2_1);
+		map2.put(3, list2_3);
+		map2.put(4, list2_4);
+
+		ArrayList<ASNode> list3_1 = new ArrayList<ASNode>();
+		ArrayList<ASNode> list3_2 = new ArrayList<ASNode>();
+		ArrayList<ASNode> list3_4 = new ArrayList<ASNode>();
+
+		list3_1.add(node2);
+		list3_1.add(node1);
+		
+		list3_2.add(node2);
+		
+		list3_4.add(node4);
+		
+		map3.put(1, list3_1);
+		map3.put(2, list3_2);
+		map3.put(4, list3_4);
+
+		
+		ArrayList<ASNode> list4_1 = new ArrayList<ASNode>();
+		ArrayList<ASNode> list4_2 = new ArrayList<ASNode>();
+		ArrayList<ASNode> list4_3 = new ArrayList<ASNode>();
+		
+		list4_1.add(node3);
+		list4_1.add(node2);
+		list4_1.add(node1);
+		
+		list4_2.add(node3);
+		list4_2.add(node2);
+		
+		list4_3.add(node3);
+		
+		map4.put(1,list4_1);
+		map4.put(2,list4_2);
+		map4.put(3,list4_3);
+		
+		System.out.println("Test8");
+		node4.pathStrings();
+		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
+		
+		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
+		Assert.assertTrue(mapCompare(node3.getPaths(), map3));
+		Assert.assertTrue(mapCompare(node4.getPaths(), map4));
+
+		
+	}
+
 	public boolean listCompare(List<ASNode> list1, List<ASNode> list2) {
 		if (list1.size() == list2.size()) {
 			for (int i = 0; i < list1.size(); i++) {
@@ -262,3 +379,9 @@ public class ASNodeTests {
 	}
 
 }
+
+
+
+
+
+
