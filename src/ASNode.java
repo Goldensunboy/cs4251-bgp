@@ -217,6 +217,14 @@ public class ASNode {
 		}
 		return s;
 	}
+	
+	public boolean equals(Object o) {
+		if(o instanceof ASNode) {
+			return ASNum == ((ASNode)o).ASNum;
+		} else {
+			return false;
+		}
+	}
 
 	public static void main(String[] args) {
 		System.out.println("START");
