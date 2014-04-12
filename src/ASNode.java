@@ -10,26 +10,19 @@ public class ASNode {
 	public int ASNum, x, y;
 	public Map<Integer, ArrayList<ASNode>> paths;
 	public List<ASNode> neighbors;
+	public int IPV4;
+	public int slash_x;
 
-	public static String PrintAS(List<ASNode> nodes) {
-		String s = "";
-		boolean b = false;
-		for (ASNode a : nodes) {
-			if (b) {
-				s += " ";
-			} else {
-				b = true;
-			}
-			s += a.ASNum;
-		}
-		return s;
-	}
+
 
 	public ASNode(int ASNum, Map<Integer, ArrayList<ASNode>> paths,
 			List<ASNode> neighbors) {
 		this.ASNum = ASNum;
 		this.paths = paths;
 		this.neighbors = neighbors;
+		IPV4= 143<<24 | 128<<16 | ASNum<<8;
+		
+		slash_x=16;
 	}
 
 	public ASNode(int ASNum) {
@@ -210,81 +203,24 @@ public class ASNode {
 	public String toString() {
 		return "" + ASNum;
 	}
+	
+	public static String PrintAS(List<ASNode> nodes) {
+		String s = "";
+		boolean b = false;
+		for (ASNode a : nodes) {
+			if (b) {
+				s += " ";
+			} else {
+				b = true;
+			}
+			s += a.ASNum;
+		}
+		return s;
+	}
 
 	public static void main(String[] args) {
 		System.out.println("START");
 		ASNode node1 = new ASNode(1);
-		System.out.println("Create AS1");
-		ASNode node5 = new ASNode(5);
-		System.out.println("Connect AS1 to AS5");
-		node1.connect(node5);
-		System.out.println("PATHS of AS1");
-		node1.pathStrings();
-		System.out.println("Neighbors of AS1");
-		node1.neighborsStrings();
-		System.out.println("PATHS of AS5");
-		node5.pathStrings();
-		System.out.println("Neighbors of AS5");
-		node5.neighborsStrings();
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-
-		System.out.println("Connect AS1 to AS2 and announce");
-
-		ASNode node2 = new ASNode(2);
-		node1.connect(node2);
-		ArrayList<ASNode> list2 = new ArrayList<ASNode>();
-		list2.add(node2);
-		node1.announce(node2, list2);
-
-		System.out.println("PATHS of AS1");
-		node1.pathStrings();
-		System.out.println("Neighbors of AS1");
-		node1.neighborsStrings();
-		System.out.println("PATHS of AS5");
-		node5.pathStrings();
-		System.out.println("Neighbors of AS5");
-		node5.neighborsStrings();
-		System.out.println("PATHS of AS2");
-		node2.pathStrings();
-		System.out.println("Neighbors of AS2");
-		node2.neighborsStrings();
-		/*
-		 * System.out.println(""); System.out.println("");
-		 * System.out.println("");
-		 * 
-		 * System.out.println("Connect AS4 to AS1"); ASNode node4 = new
-		 * ASNode(4); node4.connect(node1); System.out.println("PATHS of AS1");
-		 * node1.pathStrings(); System.out.println("Neighbors of AS1");
-		 * node1.neighborsStrings(); System.out.println("PATHS of AS5");
-		 * node5.pathStrings(); System.out.println("Neighbors of AS5");
-		 * node5.neighborsStrings(); System.out.println("PATHS of AS2");
-		 * node2.pathStrings(); System.out.println("Neighbors of AS2");
-		 * node2.neighborsStrings(); System.out.println("PATHS of AS4");
-		 * node4.pathStrings(); System.out.println("Neighbors of AS4");
-		 * node4.neighborsStrings();
-		 * 
-		 * System.out.println(""); System.out.println("");
-		 * System.out.println("");
-		 * 
-		 * System.out.println("ANNOUNCE AS4 to AS1"); ArrayList<ASNode> list =
-		 * new ArrayList<ASNode>(); list.add(node4); node1.announce(node4,
-		 * list); System.out.println("PATHS of AS1"); node1.pathStrings();
-		 * System.out.println("Neighbors of AS1"); node1.neighborsStrings();
-		 * System.out.println("PATHS of AS5"); node5.pathStrings();
-		 * System.out.println("Neighbors of AS5"); node5.neighborsStrings();
-		 * System.out.println("PATHS of AS2"); node2.pathStrings();
-		 * System.out.println("Neighbors of AS2"); node2.neighborsStrings();
-		 * System.out.println("PATHS of AS4"); node4.pathStrings();
-		 * System.out.println("Neighbors of AS4"); node4.neighborsStrings();
-		 * 
-		 * }
-		 * 
-		 * // Used for backwards referencing nodes by integer public boolean
-		 * equals(Object o) { if (o instanceof Integer) { return ASNum ==
-		 * (Integer) o; } else if (o instanceof ASNode) { return ASNum ==
-		 * ((ASNode) o).ASNum; } else { return false; } }
-		 */
+		System.out.println(Integer.toHexString((node1.IPV4)));
 	}
 }
