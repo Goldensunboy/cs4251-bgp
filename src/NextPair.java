@@ -1,16 +1,16 @@
 
-public class Pair {
+public class NextPair {
 
 	int length;
 	ASNode node;
 
-	public Pair(int length,ASNode node){
-		this.length=length;
-		this.node=node;
+	public NextPair(ASNode node, int length){
+		this.length = length;
+		this.node = node;
 	}
 	
-	public Pair(){
-		this(0,null);
+	public NextPair(){
+		this(null, 0);
 	}
 
 	@Override
@@ -26,11 +26,11 @@ public class Pair {
 		return "Node "+node.ASNum+" length"+length;
 	}
 
-	public boolean pairEquals(Pair obj) {
-		if(length!=obj.length){
+	public boolean pairEquals(NextPair obj) {
+		if(length != obj.length){
 			return false;
 		}
-		if(obj.node.ASNum!=node.ASNum){
+		if(obj.node.ASNum != node.ASNum){
 			return false;
 		}
 		return true;

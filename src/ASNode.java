@@ -10,19 +10,19 @@ public class ASNode {
 	public int ASNum, x, y;
 	public Map<Integer, ArrayList<ASNode>> paths;
 	public List<ASNode> neighbors;
-	public int IPV4;
-	public int slash_x;
-	public Map<Integer, Pair> IPTable;
+	//public int IPV4;
+	//public int slash_x;
+	public Map<PrefixPair, NextPair> IPTable;
 
 	public ASNode(int ASNum, Map<Integer, ArrayList<ASNode>> paths,
 			List<ASNode> neighbors) {
 		this.ASNum = ASNum;
 		this.paths = paths;
 		this.neighbors = neighbors;
-		IPV4 = 143 << 24 | 128 << 16 | ASNum << 8;
-		slash_x = 16;
-		IPTable = new HashMap<Integer, Pair>();
-		IPTable.put(IPV4, new Pair(0, this));
+		int IPV4 = 143 << 24 | 128 << 16 | ASNum << 8;
+		int slash_x = 24;
+		IPTable = new HashMap<PrefixPair, NextPair>();
+		IPTable.put(new PrefixPair(IPV4, slash_x), new NextPair(this, 0));
 	}
 
 	public ASNode(int ASNum) {
@@ -52,14 +52,23 @@ public class ASNode {
 		Map<Integer, ArrayList<ASNode>> map1 = addNodeToTable(this, paths);
 		Map<Integer, ArrayList<ASNode>> map2 = addNodeToTable(node,
 				node.getPaths());
-
+/*
 		Map<Integer, Pair> map3 = addIPToTable(this, IPTable);
 
 		Map<Integer, Pair> map4 = addIPToTable(node, node.IPTable);
 
 		node.setIPCombine(map3, this);
 		setIPCombine(map4, node);
-
+*/
+		
+		// Exchange IP tables
+		for(PrefixPair p : IPTable.keySet()) {
+			announceIP3(p, IPTable.get(p));
+		}
+		for(PrefixPair p : node.IPTable.keySet()) {
+			node.announceIP3(p, node.IPTable.get(p));
+		}
+		
 		/* put new path into this node */
 		paths.put(node.getASNum(), newPath1);
 		map1.put(this.ASNum, newPath2);
@@ -93,10 +102,9 @@ public class ASNode {
 			list.add(0, node);
 			map.put(currentASnum, list);
 		}
-
 		return map;
 	}
-
+/*
 	protected static Map<Integer, Pair> addIPToTable(ASNode node,
 			Map<Integer, Pair> ips) {
 
@@ -109,7 +117,7 @@ public class ASNode {
 
 		return table;
 	}
-
+*/
 	/*
 	 * Method takes in another Map and combines it for shortest paths
 	 */
@@ -130,15 +138,14 @@ public class ASNode {
 				}
 			}
 		}
-
 	}
-
+/*
 	public void setIPCombine(Map<Integer, Pair> IPTable, ASNode node) {
 		for (int currIP : IPTable.keySet()) {
 			if (this.IPTable.containsKey(currIP)) {
 				if (IPTable.get(currIP).length < this.IPTable.get(currIP).length) {
 					this.IPTable.put(currIP, new Pair(
-							IPTable.get(currIP).length, node));
+						IPTable.get(currIP).length, node));
 				}
 			} else {
 				if (currIP != this.IPV4) {
@@ -147,9 +154,8 @@ public class ASNode {
 				}
 			}
 		}
-
 	}
-
+*/
 	/*
 	 * Announce a path
 	 */
@@ -193,9 +199,8 @@ public class ASNode {
 			list2.add(0, node);
 			announce(node, list2);
 		}
-
 	}
-
+/*
 	public void announceIP(ASNode node, int ip, int length) {
 		if (neighbors.size() == 0) {
 			return;
@@ -203,9 +208,8 @@ public class ASNode {
 		for (ASNode temp : neighbors) {
 			if (temp.IPTable.containsKey(ip)) {
 				if (temp.IPTable.get(ip).length > length && length > 0) {
-						temp.IPTable.put(ip, new Pair(length, this));
-						temp.announceIP(node, ip, length++);
-					
+					temp.IPTable.put(ip, new Pair(length, this));
+					temp.announceIP(node, ip, length++);
 				}
 			} else {
 				if (ip != this.IPV4) {
@@ -223,7 +227,44 @@ public class ASNode {
 				announceIP(node, tempIP, node.IPTable.get(tempIP).length++);
 			}
 		}
-
+	}
+*/
+/*
+	public void announceIP2(ASNode node) {
+		for(PrefixPair p : IPTable.keySet()) {
+			if(node.IPTable.keySet().contains(p)) {
+				// In table: If shorter path length, update
+				NextPair n = IPTable.get(p);
+				if() {
+					node.IPTable.put(p, new NextPair(n.node, n.length + 1));
+				}
+			} else {
+				// Not in the table: Add it, +1 to path length
+				NextPair n = IPTable.get(p);
+				node.IPTable.put(p, new NextPair(n.node, n.length + 1));
+			}
+		}
+	}
+*/
+	// Note: The path is announced as-is, and incremented when adding to the neighbor's table
+	public void announceIP3(PrefixPair p, NextPair n) {
+		for(ASNode a : neighbors) {
+			if(a.IPTable.keySet().contains(p)) {
+				NextPair newPair = new NextPair(n.node, n.length + 1);
+				if(newPair.length < a.IPTable.get(p).length) {
+					a.IPTable.put(p,  newPair);
+					for(ASNode a2 : a.neighbors) {
+						a2.announceIP3(p, newPair);
+					}
+				}
+			} else {
+				NextPair newPair = new NextPair(n.node, n.length + 1);
+				a.IPTable.put(p,  newPair);
+				for(ASNode a2 : a.neighbors) {
+					a2.announceIP3(p, newPair);
+				}
+			}
+		}
 	}
 
 	public int getASNum() {
@@ -269,7 +310,6 @@ public class ASNode {
 			System.out.print(node.getASNum() + " ");
 		}
 		System.out.println("");
-
 	}
 
 	public String toString() {
@@ -301,7 +341,6 @@ public class ASNode {
 	public static void main(String[] args) {
 		System.out.println("START");
 		ASNode node1 = new ASNode(1);
-		System.out.println(Integer.toHexString((node1.IPV4)));
+//		System.out.println(Integer.toHexString((node1.IPV4)));
 	}
-
 }

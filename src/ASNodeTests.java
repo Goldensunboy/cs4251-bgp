@@ -26,13 +26,13 @@ public class ASNodeTests {
 		map1.put(2, list1);
 		map2.put(1, list2);
 
-		Map<Integer, Pair> map3 = new HashMap<Integer, Pair>();
-		map3.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map3.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+		Map<PrefixPair, NextPair> map3 = new HashMap<PrefixPair, NextPair>();
+		map3.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map3.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 0));
 
-		Map<Integer, Pair> map4 = new HashMap<Integer, Pair>();
-		map4.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map4.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		Map<PrefixPair, NextPair> map4 = new HashMap<PrefixPair, NextPair>();
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
 		//System.out.println(map3);
 		//System.out.println(node2.IPTable);
 
@@ -62,13 +62,13 @@ public class ASNodeTests {
 		map2.put(1, list2);
 		
 		
-		Map<Integer, Pair> map3 = new HashMap<Integer, Pair>();
-		map3.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map3.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+		Map<PrefixPair, NextPair> map3 = new HashMap<PrefixPair, NextPair>();
+		map3.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map3.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 0));
 
-		Map<Integer, Pair> map4 = new HashMap<Integer, Pair>();
-		map4.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map4.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		Map<PrefixPair, NextPair> map4 = new HashMap<PrefixPair, NextPair>();
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
 		
 		
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
@@ -89,7 +89,7 @@ public class ASNodeTests {
 
 		node1.connect(node2);
 		node3.connect(node1);
-		node1.announceIP(node3);
+		//node1.announceIP(node3);
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map3 = new HashMap<Integer, List<ASNode>>();
@@ -119,20 +119,20 @@ public class ASNodeTests {
 	//	System.out.println(map2);
 		
 		
-		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
-		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
-		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(2, node1));
+		Map<PrefixPair, NextPair> map5 = new HashMap<PrefixPair, NextPair>();
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 0));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node1, 2));
 
-		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
-		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
-		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1,node3));
+		Map<PrefixPair, NextPair> map6 = new HashMap<PrefixPair, NextPair>();
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
 
-		Map<Integer, Pair> map7 = new HashMap<Integer, Pair>();
-		map7.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map7.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
-		map7.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(2,node1));
+		Map<PrefixPair, NextPair> map7 = new HashMap<PrefixPair, NextPair>();
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node1, 2));
 		
 	//	System.out.println(node3.IPTable);
 		//System.out.println(map7);
@@ -183,20 +183,20 @@ public class ASNodeTests {
 		map3.put(2, list5);
 		
 		
-		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
-		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
-		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(2, node1));
+		Map<PrefixPair, NextPair> map5 = new HashMap<PrefixPair, NextPair>();
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 0));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node1, 2));
 
-		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
-		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
-		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1,node3));
+		Map<PrefixPair, NextPair> map6 = new HashMap<PrefixPair, NextPair>();
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
 
-		Map<Integer, Pair> map7 = new HashMap<Integer, Pair>();
-		map7.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map7.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
-		map7.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(2,node1));
+		Map<PrefixPair, NextPair> map7 = new HashMap<PrefixPair, NextPair>();
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node1, 2));
 	
 		
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map6));
@@ -251,20 +251,20 @@ public class ASNodeTests {
 		map3.put(2, list5);
 		// node3.pathStrings();
 
-		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
-		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
-		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(2, node1));
+		Map<PrefixPair, NextPair> map5 = new HashMap<PrefixPair, NextPair>();
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 0));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node1, 2));
 
-		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
-		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
-		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1,node3));
+		Map<PrefixPair, NextPair> map6 = new HashMap<PrefixPair, NextPair>();
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
 
-		Map<Integer, Pair> map7 = new HashMap<Integer, Pair>();
-		map7.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map7.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
-		map7.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(2,node1));
+		Map<PrefixPair, NextPair> map7 = new HashMap<PrefixPair, NextPair>();
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node1, 2));
 	
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map6));
 		Assert.assertTrue(mapCompareIP(node3.IPTable, map7));
@@ -316,20 +316,20 @@ public class ASNodeTests {
 		map3.put(2, list6);
 		// node3.pathStrings();
 		
-		Map<Integer, Pair> map4 = new HashMap<Integer, Pair>();
-		map4.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
-		map4.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map4.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		Map<PrefixPair, NextPair> map4 = new HashMap<PrefixPair, NextPair>();
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
 		
-		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
-		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
-		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		Map<PrefixPair, NextPair> map5 = new HashMap<PrefixPair, NextPair>();
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 0));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
 		
-		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
-		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
+		Map<PrefixPair, NextPair> map6 = new HashMap<PrefixPair, NextPair>();
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
 		
 		//System.out.println(node3.IPTable);
 		//System.out.println(map6);
@@ -355,7 +355,7 @@ public class ASNodeTests {
 
 		node1.connect(node2);
 		node2.connect(node3);
-		node2.announceIP(node3);
+		//node2.announceIP(node3);
 		node3.connect(node1);
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
@@ -384,20 +384,20 @@ public class ASNodeTests {
 		// node3.pathStrings();
 		
 		
-		Map<Integer, Pair> map4 = new HashMap<Integer, Pair>();
-		map4.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
-		map4.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map4.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		Map<PrefixPair, NextPair> map4 = new HashMap<PrefixPair, NextPair>();
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
 		
-		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
-		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
-		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		Map<PrefixPair, NextPair> map5 = new HashMap<PrefixPair, NextPair>();
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 0));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
 		
-		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
-		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
+		Map<PrefixPair, NextPair> map6 = new HashMap<PrefixPair, NextPair>();
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
 		
 		//System.out.println(node3.IPTable);
 		//System.out.println(map6);
@@ -424,8 +424,8 @@ public class ASNodeTests {
 		node1.connect(node2);
 		node3.connect(node4);
 		node2.connect(node3);
-		node2.announceIP(node3);
-		node3.announceIP(node2);
+		//node2.announceIP(node3);
+		//node3.announceIP(node2);
 
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
@@ -493,36 +493,57 @@ public class ASNodeTests {
 		map4.put(2, list4_2);
 		map4.put(3, list4_3);
 
-		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
-		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
-		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(2, node2));
-		map5.put(143 << 24 | 128 << 16 | 4 << 8, new Pair(3, node2));
+		Map<PrefixPair, NextPair> map5 = new HashMap<PrefixPair, NextPair>();
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node2, 2));
+		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 4 << 8, 24), new NextPair(node2, 3));
 		
-		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
-		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
-		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
-		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
-		map6.put(143 << 24 | 128 << 16 | 4 << 8, new Pair(2, node3));
+		Map<PrefixPair, NextPair> map6 = new HashMap<PrefixPair, NextPair>();
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 0));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
+		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 4 << 8, 24), new NextPair(node3, 2));
 		
-		Map<Integer, Pair> map7 = new HashMap<Integer, Pair>();
-		map7.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(2, node2));
-		map7.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
-		map7.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
-		map7.put(143 << 24 | 128 << 16 | 4 << 8, new Pair(1, node4));
+		Map<PrefixPair, NextPair> map7 = new HashMap<PrefixPair, NextPair>();
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node2, 2));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
+		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 4 << 8, 24), new NextPair(node4, 1));
 		
-		Map<Integer, Pair> map8 = new HashMap<Integer, Pair>();
-		map8.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(3, node3));
-		map8.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(2, node3));
-		map8.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
-		map8.put(143 << 24 | 128 << 16 | 4 << 8, new Pair(0, node4));
+		Map<PrefixPair, NextPair> map8 = new HashMap<PrefixPair, NextPair>();
+		map8.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node3, 3));
+		map8.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node3, 2));
+		map8.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
+		map8.put(new PrefixPair(143 << 24 | 128 << 16 | 4 << 8, 24), new NextPair(node4, 0));
 
 		
 		// System.out.println("Test8");
 		// node4.pathStrings();
 		
-		System.out.println(node3.IPTable);
-		System.out.println(map7);
+		//System.out.println(node3.IPTable);
+		//System.out.println(map7);
+		/*
+		for(PrefixPair p : node3.IPTable.keySet()) {
+			for(int i = 3; i >= 0; --i) {
+				System.out.printf("%d", (p.intValue() >> (i << 3)) & 0xFF);
+				if(i > 0) {
+					System.out.printf(".");
+				}
+			}
+			System.out.println(" - Node: " + node3.IPTable.get(k).node.ASNum + " Len: " + node3.IPTable.get(k).length);
+		}
+		System.out.println("----------");
+		for(Integer k : map7.keySet()) {
+			for(int i = 3; i >= 0; --i) {
+				System.out.printf("%d", (k.intValue() >> (i << 3)) & 0xFF);
+				if(i > 0) {
+					System.out.printf(".");
+				}
+			}
+			System.out.println(" - Node: " + map7.get(k).node.ASNum + " Len: " + map7.get(k).length);
+		}
+		*/
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map5));
 		
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
@@ -561,8 +582,8 @@ public class ASNodeTests {
 		return true;
 	}
 
-	public boolean mapCompareIP(Map<Integer, Pair> map, Map<Integer, Pair> map2) {
-		for (Integer key : map.keySet()) {
+	public boolean mapCompareIP(Map<PrefixPair, NextPair> map, Map<PrefixPair, NextPair> map2) {
+		for (PrefixPair key : map.keySet()) {
 			if (!map2.containsKey(key)) {
 				return false;
 			}
