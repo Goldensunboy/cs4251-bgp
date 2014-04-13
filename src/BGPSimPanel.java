@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionListener {
@@ -21,6 +22,13 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
             LineSize = 5;
 	public int ascounter;
 	private static final double PATH_SIZE = 3;
+	
+	// Combo box for choosing how to view data
+	public String[] comboChoices = {
+		"AS table",
+		"IP table"
+	};
+	public JComboBox<String> viewComboBox = new JComboBox<String>(comboChoices);
 	
 	// Link to the table panel for showing node info
 	BGPTablePanel btp;
@@ -67,7 +75,7 @@ public class BGPSimPanel extends JPanel implements MouseListener, MouseMotionLis
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-		g.drawString("Mode: " + (mode == BGPMode.EDIT ? "Edit" : "Simulate"), 5, 15);
+		//g.drawString("Mode: " + (mode == BGPMode.EDIT ? "Edit" : "Simulate"), 5, 15);
 		
 		// Draw the lines
 		Set<NodePair> adjList = new HashSet<NodePair>();

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 public class BGPButtonPanel extends JPanel {
@@ -17,7 +18,6 @@ public class BGPButtonPanel extends JPanel {
 	// Link to the simulation panel for changing the mode
 	private BGPSimPanel bsp;
 	private JButton editModeButton = new JButton("Edit");
-	private JButton simulateButton = new JButton("Simulate");
 	private JButton clearButton = new JButton("Clear");
 
 	// Create a new BGP Simulation Panel
@@ -37,14 +37,6 @@ public class BGPButtonPanel extends JPanel {
 				bsp.repaint();
 			}
 		});
-		simulateButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				bsp.mode = BGPSimPanel.BGPMode.SIMULATE;
-				bsp.currSelected = null;
-				bsp.repaint();
-				// TODO start simulation timer
-			}
-		});
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bsp.currSelected = null;
@@ -54,10 +46,10 @@ public class BGPButtonPanel extends JPanel {
 				bsp.repaint();
 			}
 		});
-		
-		// Add the buttons
+	
+		// Add the elements
 		add(editModeButton);
 		add(clearButton);
-		add(simulateButton);
+		add(bsp.viewComboBox);
 	}
 }
