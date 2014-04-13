@@ -33,8 +33,6 @@ public class ASNodeTests {
 		Map<PrefixPair, NextPair> map4 = new HashMap<PrefixPair, NextPair>();
 		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
 		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
-		//System.out.println(map3);
-		//System.out.println(node2.IPTable);
 
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
@@ -115,9 +113,6 @@ public class ASNodeTests {
 		map2.put(3, list32);
 		map3.put(1, list4);
 		map3.put(2, list5);
-		// node2.pathStrings();
-	//	System.out.println(map2);
-		
 		
 		Map<PrefixPair, NextPair> map5 = new HashMap<PrefixPair, NextPair>();
 		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
@@ -134,8 +129,6 @@ public class ASNodeTests {
 		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
 		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node1, 2));
 		
-	//	System.out.println(node3.IPTable);
-		//System.out.println(map7);
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map6));
 		Assert.assertTrue(mapCompareIP(node3.IPTable, map7));
 		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
@@ -197,15 +190,10 @@ public class ASNodeTests {
 		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
 		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
 		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node1, 2));
-	
 		
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map6));
 		Assert.assertTrue(mapCompareIP(node3.IPTable, map7));
 		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
-
-
-		// node2.pathStrings();
-		// System.out.println(map2);
 
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
@@ -249,7 +237,6 @@ public class ASNodeTests {
 		map2.put(3, list32);
 		map3.put(1, list4);
 		map3.put(2, list5);
-		// node3.pathStrings();
 
 		Map<PrefixPair, NextPair> map5 = new HashMap<PrefixPair, NextPair>();
 		map5.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 1));
@@ -288,7 +275,6 @@ public class ASNodeTests {
 
 		node1.connect(node2);
 		node1.connect(node3);
-		//node1.announce(node3);
 		node2.connect(node3);
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
@@ -314,7 +300,6 @@ public class ASNodeTests {
 
 		map3.put(1, list5);
 		map3.put(2, list6);
-		// node3.pathStrings();
 		
 		Map<PrefixPair, NextPair> map4 = new HashMap<PrefixPair, NextPair>();
 		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
@@ -331,13 +316,9 @@ public class ASNodeTests {
 		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
 		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
 		
-		//System.out.println(node3.IPTable);
-		//System.out.println(map6);
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map4));
 		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
 		Assert.assertTrue(mapCompareIP(node3.IPTable, map6));
-
-		
 
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
@@ -355,7 +336,6 @@ public class ASNodeTests {
 
 		node1.connect(node2);
 		node2.connect(node3);
-		//node2.announceIP(node3);
 		node3.connect(node1);
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
@@ -381,8 +361,6 @@ public class ASNodeTests {
 
 		map3.put(1, list5);
 		map3.put(2, list6);
-		// node3.pathStrings();
-		
 		
 		Map<PrefixPair, NextPair> map4 = new HashMap<PrefixPair, NextPair>();
 		map4.put(new PrefixPair(143 << 24 | 128 << 16 | 1 << 8, 24), new NextPair(node1, 0));
@@ -399,8 +377,6 @@ public class ASNodeTests {
 		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node2, 1));
 		map6.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 0));
 		
-		//System.out.println(node3.IPTable);
-		//System.out.println(map6);
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map4));
 		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
 		Assert.assertTrue(mapCompareIP(node3.IPTable, map6));
@@ -424,8 +400,6 @@ public class ASNodeTests {
 		node1.connect(node2);
 		node3.connect(node4);
 		node2.connect(node3);
-		//node2.announceIP(node3);
-		//node3.announceIP(node2);
 
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
@@ -517,33 +491,6 @@ public class ASNodeTests {
 		map8.put(new PrefixPair(143 << 24 | 128 << 16 | 3 << 8, 24), new NextPair(node3, 1));
 		map8.put(new PrefixPair(143 << 24 | 128 << 16 | 4 << 8, 24), new NextPair(node4, 0));
 
-		
-		// System.out.println("Test8");
-		// node4.pathStrings();
-		
-		//System.out.println(node3.IPTable);
-		//System.out.println(map7);
-		/*
-		for(PrefixPair p : node3.IPTable.keySet()) {
-			for(int i = 3; i >= 0; --i) {
-				System.out.printf("%d", (p.intValue() >> (i << 3)) & 0xFF);
-				if(i > 0) {
-					System.out.printf(".");
-				}
-			}
-			System.out.println(" - Node: " + node3.IPTable.get(k).node.ASNum + " Len: " + node3.IPTable.get(k).length);
-		}
-		System.out.println("----------");
-		for(Integer k : map7.keySet()) {
-			for(int i = 3; i >= 0; --i) {
-				System.out.printf("%d", (k.intValue() >> (i << 3)) & 0xFF);
-				if(i > 0) {
-					System.out.printf(".");
-				}
-			}
-			System.out.println(" - Node: " + map7.get(k).node.ASNum + " Len: " + map7.get(k).length);
-		}
-		*/
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map5));
 		
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
@@ -576,9 +523,7 @@ public class ASNodeTests {
 			if (!listCompare(map.get(key), map2.get(key))) {
 				return false;
 			}
-
 		}
-
 		return true;
 	}
 
@@ -590,10 +535,7 @@ public class ASNodeTests {
 			if (!map2.get(key).pairEquals(map.get(key))) {
 				return false;
 			}
-
 		}
-
 		return true;
 	}
-
 }
