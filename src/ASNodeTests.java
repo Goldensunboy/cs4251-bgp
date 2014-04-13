@@ -25,8 +25,22 @@ public class ASNodeTests {
 		list1.add(node2);
 		map1.put(2, list1);
 		map2.put(1, list2);
+
+		Map<Integer, Pair> map3 = new HashMap<Integer, Pair>();
+		map3.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map3.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+
+		Map<Integer, Pair> map4 = new HashMap<Integer, Pair>();
+		map4.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map4.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		//System.out.println(map3);
+		//System.out.println(node2.IPTable);
+
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
+		Assert.assertTrue(mapCompareIP(node2.IPTable, map3));
+		Assert.assertTrue(mapCompareIP(node1.IPTable, map4));
+
 	}
 
 	/*
@@ -46,8 +60,22 @@ public class ASNodeTests {
 		list1.add(node2);
 		map1.put(2, list1);
 		map2.put(1, list2);
+		
+		
+		Map<Integer, Pair> map3 = new HashMap<Integer, Pair>();
+		map3.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map3.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+
+		Map<Integer, Pair> map4 = new HashMap<Integer, Pair>();
+		map4.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map4.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		
+		
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
+		Assert.assertTrue(mapCompareIP(node2.IPTable, map3));
+		Assert.assertTrue(mapCompareIP(node1.IPTable, map4));
+
 	}
 
 	/*
@@ -61,6 +89,7 @@ public class ASNodeTests {
 
 		node1.connect(node2);
 		node3.connect(node1);
+		node1.announceIP(node3);
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map3 = new HashMap<Integer, List<ASNode>>();
@@ -75,13 +104,41 @@ public class ASNodeTests {
 		list1.add(node2);
 		list4.add(node1);
 
+		List<ASNode> list32 = new ArrayList<ASNode>();
+		list32.add(node1);
+		list32.add(node3);
+
 		list3.add(node3);
 		map1.put(3, list3);
 		map1.put(2, list1);
 		map2.put(1, list2);
+		map2.put(3, list32);
 		map3.put(1, list4);
 		map3.put(2, list5);
-		node3.pathStrings();
+		// node2.pathStrings();
+	//	System.out.println(map2);
+		
+		
+		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
+		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(2, node1));
+
+		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
+		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1,node3));
+
+		Map<Integer, Pair> map7 = new HashMap<Integer, Pair>();
+		map7.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map7.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
+		map7.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(2,node1));
+		
+	//	System.out.println(node3.IPTable);
+		//System.out.println(map7);
+		Assert.assertTrue(mapCompareIP(node1.IPTable, map6));
+		Assert.assertTrue(mapCompareIP(node3.IPTable, map7));
+		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
 
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
@@ -100,6 +157,7 @@ public class ASNodeTests {
 
 		node1.connect(node2);
 		node1.connect(node3);
+
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map3 = new HashMap<Integer, List<ASNode>>();
@@ -113,14 +171,41 @@ public class ASNodeTests {
 		list2.add(node1);
 		list1.add(node2);
 		list4.add(node1);
-
+		List<ASNode> list32 = new ArrayList<ASNode>();
+		list32.add(node1);
+		list32.add(node3);
 		list3.add(node3);
 		map1.put(3, list3);
 		map1.put(2, list1);
 		map2.put(1, list2);
+		map2.put(3, list32);
 		map3.put(1, list4);
 		map3.put(2, list5);
-		node3.pathStrings();
+		
+		
+		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
+		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(2, node1));
+
+		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
+		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1,node3));
+
+		Map<Integer, Pair> map7 = new HashMap<Integer, Pair>();
+		map7.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map7.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
+		map7.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(2,node1));
+	
+		
+		Assert.assertTrue(mapCompareIP(node1.IPTable, map6));
+		Assert.assertTrue(mapCompareIP(node3.IPTable, map7));
+		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
+
+
+		// node2.pathStrings();
+		// System.out.println(map2);
 
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
@@ -153,12 +238,37 @@ public class ASNodeTests {
 		list4.add(node1);
 
 		list3.add(node3);
+
+		List<ASNode> list32 = new ArrayList<ASNode>();
+		list32.add(node1);
+		list32.add(node3);
+
 		map1.put(3, list3);
 		map1.put(2, list1);
 		map2.put(1, list2);
+		map2.put(3, list32);
 		map3.put(1, list4);
 		map3.put(2, list5);
-		node3.pathStrings();
+		// node3.pathStrings();
+
+		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
+		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(2, node1));
+
+		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
+		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1,node3));
+
+		Map<Integer, Pair> map7 = new HashMap<Integer, Pair>();
+		map7.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map7.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
+		map7.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(2,node1));
+	
+		Assert.assertTrue(mapCompareIP(node1.IPTable, map6));
+		Assert.assertTrue(mapCompareIP(node3.IPTable, map7));
+		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
 
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
@@ -178,6 +288,7 @@ public class ASNodeTests {
 
 		node1.connect(node2);
 		node1.connect(node3);
+		//node1.announce(node3);
 		node2.connect(node3);
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
@@ -203,7 +314,30 @@ public class ASNodeTests {
 
 		map3.put(1, list5);
 		map3.put(2, list6);
-		node3.pathStrings();
+		// node3.pathStrings();
+		
+		Map<Integer, Pair> map4 = new HashMap<Integer, Pair>();
+		map4.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		map4.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map4.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		
+		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
+		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		
+		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
+		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
+		
+		//System.out.println(node3.IPTable);
+		//System.out.println(map6);
+		Assert.assertTrue(mapCompareIP(node1.IPTable, map4));
+		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
+		Assert.assertTrue(mapCompareIP(node3.IPTable, map6));
+
+		
 
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
@@ -221,6 +355,7 @@ public class ASNodeTests {
 
 		node1.connect(node2);
 		node2.connect(node3);
+		node2.announceIP(node3);
 		node3.connect(node1);
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
@@ -246,7 +381,29 @@ public class ASNodeTests {
 
 		map3.put(1, list5);
 		map3.put(2, list6);
-		node3.pathStrings();
+		// node3.pathStrings();
+		
+		
+		Map<Integer, Pair> map4 = new HashMap<Integer, Pair>();
+		map4.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		map4.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map4.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		
+		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
+		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		
+		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
+		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
+		
+		//System.out.println(node3.IPTable);
+		//System.out.println(map6);
+		Assert.assertTrue(mapCompareIP(node1.IPTable, map4));
+		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
+		Assert.assertTrue(mapCompareIP(node3.IPTable, map6));
 
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
@@ -254,10 +411,7 @@ public class ASNodeTests {
 	}
 
 	/*
-	 * 1->2->3->4
-	 *  1->2 
-	 *  3->4 
-	 *  2->3
+	 * 1->2->3->4 1->2 3->4 2->3
 	 */
 
 	@Test
@@ -270,8 +424,9 @@ public class ASNodeTests {
 		node1.connect(node2);
 		node3.connect(node4);
 		node2.connect(node3);
-		node2.announce(node3);
-		node3.announce(node2);
+		node2.announceIP(node3);
+		node3.announceIP(node2);
+
 		Map<Integer, List<ASNode>> map1 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map2 = new HashMap<Integer, List<ASNode>>();
 		Map<Integer, List<ASNode>> map3 = new HashMap<Integer, List<ASNode>>();
@@ -282,7 +437,7 @@ public class ASNodeTests {
 		ArrayList<ASNode> list1_4 = new ArrayList<ASNode>();
 
 		list1_2.add(node2);
-		
+
 		list1_3.add(node2);
 		list1_3.add(node3);
 
@@ -312,42 +467,70 @@ public class ASNodeTests {
 
 		list3_1.add(node2);
 		list3_1.add(node1);
-		
+
 		list3_2.add(node2);
-		
+
 		list3_4.add(node4);
-		
+
 		map3.put(1, list3_1);
 		map3.put(2, list3_2);
 		map3.put(4, list3_4);
 
-		
 		ArrayList<ASNode> list4_1 = new ArrayList<ASNode>();
 		ArrayList<ASNode> list4_2 = new ArrayList<ASNode>();
 		ArrayList<ASNode> list4_3 = new ArrayList<ASNode>();
-		
+
 		list4_1.add(node3);
 		list4_1.add(node2);
 		list4_1.add(node1);
-		
+
 		list4_2.add(node3);
 		list4_2.add(node2);
-		
+
 		list4_3.add(node3);
+
+		map4.put(1, list4_1);
+		map4.put(2, list4_2);
+		map4.put(3, list4_3);
+
+		Map<Integer, Pair> map5 = new HashMap<Integer, Pair>();
+		map5.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(0, node1));
+		map5.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map5.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(2, node2));
+		map5.put(143 << 24 | 128 << 16 | 4 << 8, new Pair(3, node2));
 		
-		map4.put(1,list4_1);
-		map4.put(2,list4_2);
-		map4.put(3,list4_3);
+		Map<Integer, Pair> map6 = new HashMap<Integer, Pair>();
+		map6.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(1, node1));
+		map6.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(0, node2));
+		map6.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		map6.put(143 << 24 | 128 << 16 | 4 << 8, new Pair(2, node3));
 		
-		System.out.println("Test8");
-		node4.pathStrings();
+		Map<Integer, Pair> map7 = new HashMap<Integer, Pair>();
+		map7.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(2, node2));
+		map7.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(1, node2));
+		map7.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(0, node3));
+		map7.put(143 << 24 | 128 << 16 | 4 << 8, new Pair(1, node4));
+		
+		Map<Integer, Pair> map8 = new HashMap<Integer, Pair>();
+		map8.put(143 << 24 | 128 << 16 | 1 << 8, new Pair(3, node3));
+		map8.put(143 << 24 | 128 << 16 | 2 << 8, new Pair(2, node3));
+		map8.put(143 << 24 | 128 << 16 | 3 << 8, new Pair(1, node3));
+		map8.put(143 << 24 | 128 << 16 | 4 << 8, new Pair(0, node4));
+
+		
+		// System.out.println("Test8");
+		// node4.pathStrings();
+		
+		System.out.println(node3.IPTable);
+		System.out.println(map7);
+		Assert.assertTrue(mapCompareIP(node1.IPTable, map5));
+		
 		Assert.assertTrue(mapCompare(node1.getPaths(), map1));
-		
+
 		Assert.assertTrue(mapCompare(node2.getPaths(), map2));
 		Assert.assertTrue(mapCompare(node3.getPaths(), map3));
 		Assert.assertTrue(mapCompare(node4.getPaths(), map4));
 
-		
 	}
 
 	public boolean listCompare(List<ASNode> list1, List<ASNode> list2) {
@@ -378,10 +561,18 @@ public class ASNodeTests {
 		return true;
 	}
 
+	public boolean mapCompareIP(Map<Integer, Pair> map, Map<Integer, Pair> map2) {
+		for (Integer key : map.keySet()) {
+			if (!map2.containsKey(key)) {
+				return false;
+			}
+			if (!map2.get(key).pairEquals(map.get(key))) {
+				return false;
+			}
+
+		}
+
+		return true;
+	}
+
 }
-
-
-
-
-
-
