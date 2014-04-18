@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ASNode {
 	public int ASNum, x, y;
@@ -26,6 +27,41 @@ public class ASNode {
 	public ASNode(int ASNum) {
 		this(ASNum, new HashMap<Integer, ArrayList<ASNode>>(),
 				new ArrayList<ASNode>());
+	}
+
+	public static PrefixPair longestPrefix(Set<PrefixPair> set, int IPV4) {
+		int length = 0;
+		PrefixPair temp = null;
+		String str = Integer.toBinaryString(IPV4);
+		for (PrefixPair p : set) {
+			String str_temp = Integer.toBinaryString(p.IPV4).substring(0,
+					p.slash_x);
+			int temp_length = 0;
+			for (int i = 0; i < str_temp.length(); i++) {
+				if (str_temp.charAt(i) == str.charAt(i)) {
+					temp_length++;
+				}
+			}
+			if (temp_length > length) {
+				length = temp_length;
+				temp = p;
+			}
+		}
+
+		return temp;
+	}
+
+	public void path(Map<PrefixPair, NextPair> IPTable, int IPV4) {
+		Map<PrefixPair, NextPair> temp = IPTable;
+		while (true) {
+			PrefixPair p = longestPrefix(temp.keySet(), IPV4);
+			NextPair np=temp.get(p);
+			if(np.length==0){
+				break;
+			}
+			temp=np.node.IPTable;
+		}
+
 	}
 
 	public ASNode(int ASNum, int new_x, int new_y) {
@@ -50,15 +86,15 @@ public class ASNode {
 		Map<Integer, ArrayList<ASNode>> map1 = addNodeToTable(this, paths);
 		Map<Integer, ArrayList<ASNode>> map2 = addNodeToTable(node,
 				node.getPaths());
-		
+
 		// Exchange IP tables
-		for(PrefixPair p : IPTable.keySet()) {
+		for (PrefixPair p : IPTable.keySet()) {
 			announceIP(p, IPTable.get(p));
 		}
-		for(PrefixPair p : node.IPTable.keySet()) {
+		for (PrefixPair p : node.IPTable.keySet()) {
 			node.announceIP(p, node.IPTable.get(p));
 		}
-		
+
 		/* put new path into this node */
 		paths.put(node.getASNum(), newPath1);
 		map1.put(this.ASNum, newPath2);
@@ -157,21 +193,22 @@ public class ASNode {
 		}
 	}
 
-	// Note: The path is announced as-is, and incremented when adding to the neighbor's table
+	// Note: The path is announced as-is, and incremented when adding to the
+	// neighbor's table
 	public void announceIP(PrefixPair p, NextPair n) {
-		for(ASNode a : neighbors) {
-			if(a.IPTable.keySet().contains(p)) {
+		for (ASNode a : neighbors) {
+			if (a.IPTable.keySet().contains(p)) {
 				NextPair newPair = new NextPair(n.node, n.length + 1);
-				if(newPair.length < a.IPTable.get(p).length) {
-					a.IPTable.put(p,  newPair);
-					for(ASNode a2 : a.neighbors) {
+				if (newPair.length < a.IPTable.get(p).length) {
+					a.IPTable.put(p, newPair);
+					for (ASNode a2 : a.neighbors) {
 						a2.announceIP(p, newPair);
 					}
 				}
 			} else {
 				NextPair newPair = new NextPair(n.node, n.length + 1);
-				a.IPTable.put(p,  newPair);
-				for(ASNode a2 : a.neighbors) {
+				a.IPTable.put(p, newPair);
+				for (ASNode a2 : a.neighbors) {
 					a2.announceIP(p, newPair);
 				}
 			}
@@ -240,10 +277,10 @@ public class ASNode {
 		}
 		return s;
 	}
-	
+
 	public boolean equals(Object o) {
-		if(o instanceof ASNode) {
-			return ASNum == ((ASNode)o).ASNum;
+		if (o instanceof ASNode) {
+			return ASNum == ((ASNode) o).ASNum;
 		} else {
 			return false;
 		}
@@ -251,5 +288,11 @@ public class ASNode {
 
 	public static void main(String[] args) {
 		System.out.println("START");
+		ASNode node = new ASNode(0);
+		for (PrefixPair i : node.IPTable.keySet()) {
+			System.out.println(Integer.toBinaryString(i.IPV4)
+					.substring(0, i.slash_x).length());
+
+		}
 	}
 }

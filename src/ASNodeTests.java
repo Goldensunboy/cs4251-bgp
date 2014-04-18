@@ -501,6 +501,46 @@ public class ASNodeTests {
 
 	}
 
+	@Test
+	public void Test9(){
+		Map<PrefixPair, NextPair> IPTable = new HashMap<PrefixPair,NextPair>();
+		int IPV41 = 172 << 24 | 21 << 16 | 10 << 8 | 237;
+		int IPV42 = 172 << 24 | 21 << 16 | 10 << 8 | 238;
+		int IPV43 = 172 << 24 | 21 << 16 | 10 << 8 | 246;
+
+		IPTable.put(new PrefixPair(IPV42,32), new NextPair());
+		IPTable.put(new PrefixPair(IPV43,32), new NextPair());
+		
+		Assert.assertEquals(IPV42, ASNode.longestPrefix(IPTable.keySet(), IPV41).IPV4);
+	/*	System.out.println(Integer.toBinaryString((ASNode.path(IPTable, IPV41).IPV4)));*/
+
+		
+	}
+	
+	@Test
+	public void Test10(){
+		Map<PrefixPair, NextPair> IPTable = new HashMap<PrefixPair,NextPair>();
+		int IPV41 = 192 << 24 | 168 << 16 | 50 << 8 | 37;
+		int IPV42 = 192 << 24 | 168 << 16 | 52 << 8;
+		int IPV43 = 192 << 24 | 168 << 16 | 50 << 8;
+		int IPV44 = 192 << 24 | 168 << 16 | 48 << 8;
+
+		//System.out.println("1: "+Integer.toBinaryString(IPV42));
+	//	System.out.println(Integer.toBinaryString(IPV43));
+		//System.out.println("3: "+Integer.toBinaryString(IPV44));
+
+		IPTable.put(new PrefixPair(IPV42,22), new NextPair());
+		IPTable.put(new PrefixPair(IPV43,24), new NextPair());
+		IPTable.put(new PrefixPair(IPV43,22), new NextPair());
+
+		Assert.assertEquals(IPV43, ASNode.longestPrefix(IPTable.keySet(), IPV41).IPV4);
+
+		//System.out.println(Integer.toBinaryString((ASNode.path(IPTable, IPV41).IPV4)));
+
+		
+	}
+	
+	
 	public boolean listCompare(List<ASNode> list1, List<ASNode> list2) {
 		if (list1.size() == list2.size()) {
 			for (int i = 0; i < list1.size(); i++) {
