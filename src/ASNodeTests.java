@@ -130,6 +130,8 @@ public class ASNodeTests {
 		map7.put(new PrefixPair(143 << 24 | 128 << 16 | 2 << 8, 24), new NextPair(node1, 2));
 		
 		Assert.assertTrue(mapCompareIP(node1.IPTable, map6));
+		System.out.println(node1.IPTable);
+		System.out.println(map7);
 		Assert.assertTrue(mapCompareIP(node3.IPTable, map7));
 		Assert.assertTrue(mapCompareIP(node2.IPTable, map5));
 

@@ -100,11 +100,7 @@ public class BGPTablePanel extends JPanel {
 						}
 					};
 					NextPair n = a.IPTable.get(p);
-					String IPstr = ((p.IPV4 >> 24) & 0xFF) + "." +
-							       ((p.IPV4 >> 16) & 0xFF) + "." +
-							       ((p.IPV4 >>  8) & 0xFF) + "." +
-							       ((p.IPV4 >>  0) & 0xFF) + "/" +
-							       p.slash_x + ": " +
+					String IPstr = p + ": " +
 							       n.node.ASNum + " (" +
 							       n.length + ")";
 					contentsPanel.add(new JLabel(IPstr));
