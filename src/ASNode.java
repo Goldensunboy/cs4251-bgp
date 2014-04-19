@@ -107,14 +107,6 @@ public class ASNode {
 		Map<Integer, ArrayList<ASNode>> map2 = addNodeToTable(node,
 				node.getPaths());
 
-		// Exchange IP tables
-		for (PrefixPair p : IPTable.keySet()) {
-			announceIP(p, IPTable.get(p));
-		}
-		for (PrefixPair p : node.IPTable.keySet()) {
-			node.announceIP(p, node.IPTable.get(p));
-		}
-
 		/* put new path into this node */
 		paths.put(node.getASNum(), newPath1);
 		map1.put(this.ASNum, newPath2);
@@ -125,6 +117,15 @@ public class ASNode {
 		/* Add each other as neighbors */
 		neighbors.add(node);
 		node.getNeighbors().add(this);
+		
+		// Exchange IP tables
+		for (PrefixPair p : IPTable.keySet()) {
+			announceIP(p, IPTable.get(p));
+		}
+		for (PrefixPair p : node.IPTable.keySet()) {
+			node.announceIP(p, node.IPTable.get(p));
+		}
+		
 		/* Announce each other's paths */
 		node.announce(this);
 		announce(node);
