@@ -2,6 +2,7 @@
  * Ilyssa Widen  */
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -88,7 +89,27 @@ public class BGPTablePanel extends JPanel {
 				add(addPanel);
 				
 				// Add a panel for each entry in the IP table
-				// TODO
+				for(PrefixPair p : a.IPTable.keySet()) {
+					JPanel contentsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)) {
+						private static final long serialVersionUID = 1068524117028487852L;
+						public void paintComponent(Graphics g) {
+							g.setColor(Color.BLACK);
+							g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+							//g.setColor(c);
+							//g.fillRect(1, 1, getWidth() - 2, getHeight() - 2);
+						}
+					};
+					NextPair n = a.IPTable.get(p);
+					String IPstr = ((p.IPV4 >> 24) & 0xFF) + "." +
+							       ((p.IPV4 >> 16) & 0xFF) + "." +
+							       ((p.IPV4 >>  8) & 0xFF) + "." +
+							       ((p.IPV4 >>  0) & 0xFF) + "/" +
+							       p.slash_x + ": " +
+							       n.node.ASNum + " (" +
+							       n.length + ")";
+					contentsPanel.add(new JLabel(IPstr));
+					add(contentsPanel);
+				}
 			}
 		}
 		
@@ -100,6 +121,7 @@ public class BGPTablePanel extends JPanel {
 		private static final long serialVersionUID = 7160322308847208940L;
 		public Color c = Color.CYAN;
 		public ContentsPanel() {
+			super(new FlowLayout(FlowLayout.LEFT));
 		}
 		public void paintComponent(Graphics g) {
 			g.setColor(Color.BLACK);
