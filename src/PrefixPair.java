@@ -20,4 +20,9 @@ public class PrefixPair {
 		result = prime * result + slash_x;
 		return result;
 	}
+	
+	@Override
+	public String toString(){
+		return IPV4+"/"+slash_x;
+	}
 }

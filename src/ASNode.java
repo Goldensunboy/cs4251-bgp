@@ -3,6 +3,7 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,11 +25,28 @@ public class ASNode {
 		IPTable.put(new PrefixPair(IPV4, slash_x), new NextPair(this, 0));
 	}
 
+	
+	public ASNode(int ASNum, Map<Integer, ArrayList<ASNode>> paths,
+			List<ASNode> neighbors,PrefixPair pair) {
+		this.ASNum = ASNum;
+		this.paths = paths;
+		this.neighbors = neighbors;
+		IPTable = new HashMap<PrefixPair, NextPair>();
+		IPTable.put(pair, new NextPair(this, 0));
+	}
+
 	public ASNode(int ASNum) {
 		this(ASNum, new HashMap<Integer, ArrayList<ASNode>>(),
 				new ArrayList<ASNode>());
 	}
 
+
+	public ASNode(int ASNum,PrefixPair pair) {
+		this(ASNum, new HashMap<Integer, ArrayList<ASNode>>(),
+				new ArrayList<ASNode>(),pair);
+	}
+
+	
 	public static PrefixPair longestPrefix(Set<PrefixPair> set, int IPV4) {
 		int length = 0;
 		PrefixPair temp = null;
@@ -51,17 +69,19 @@ public class ASNode {
 		return temp;
 	}
 
-	public void path(Map<PrefixPair, NextPair> IPTable, int IPV4) {
+	public List<ASNode> path(Map<PrefixPair, NextPair> IPTable, int IPV4) {
+		List<ASNode> list = new LinkedList<ASNode>();
 		Map<PrefixPair, NextPair> temp = IPTable;
 		while (true) {
 			PrefixPair p = longestPrefix(temp.keySet(), IPV4);
 			NextPair np=temp.get(p);
+			list.add(np.node);
 			if(np.length==0){
 				break;
 			}
 			temp=np.node.IPTable;
 		}
-
+		return list;
 	}
 
 	public ASNode(int ASNum, int new_x, int new_y) {
