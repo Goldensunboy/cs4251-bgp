@@ -20,6 +20,7 @@ public class PrefixPair {
 		result = prime * result + slash_x;
 		return result;
 	}
+
 	public String toString() {
 		return ((IPV4 >> 24) & 0xFF) + "." +
 			   ((IPV4 >> 16) & 0xFF) + "." +
