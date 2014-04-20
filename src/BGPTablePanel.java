@@ -90,21 +90,14 @@ public class BGPTablePanel extends JPanel {
 				
 				// Add a panel for each entry in the IP table
 				for(PrefixPair p : a.IPTable.keySet()) {
-					JPanel contentsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)) {
-						private static final long serialVersionUID = 1068524117028487852L;
-						public void paintComponent(Graphics g) {
-							g.setColor(Color.BLACK);
-							g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-							//g.setColor(c);
-							//g.fillRect(1, 1, getWidth() - 2, getHeight() - 2);
-						}
-					};
+					ContentsPanel contents = new ContentsPanel();
+					contents.addMouseListener(new PanelHoverListener(bsp, a.IPTable.get(p).node.ASNum, contents));
 					NextPair n = a.IPTable.get(p);
 					String IPstr = p + ": " +
 							       n.node.ASNum + " (" +
 							       n.length + ")";
-					contentsPanel.add(new JLabel(IPstr));
-					add(contentsPanel);
+					contents.add(new JLabel(IPstr));
+					add(contents);
 				}
 			}
 		}
@@ -139,7 +132,9 @@ public class BGPTablePanel extends JPanel {
 		public void mouseEntered(MouseEvent e) {
 			cp.c = Color.GREEN;
 			cp.repaint();
-			bsp.currHover = i;
+			if(bsp.currSelected.ASNum != i) {
+				bsp.currHover = i;
+			}
 			bsp.repaint();
 		}
 		public void mouseExited(MouseEvent e) {
@@ -182,7 +177,7 @@ public class BGPTablePanel extends JPanel {
 						}
 						break;
 					case 5:
-						if(!bsp.currSelected.neighbors.contains(new ASNode(Integer.parseInt(input[5])))) {
+						if(!bsp.currSelected.neighbors.contains(new ASNode(Integer.parseInt(input[5]))) && !input[5].equals("0")) {
 							JOptionPane.showMessageDialog(null, "Next hop not a neighbor: " + Integer.parseInt(input[i]), "Input Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
@@ -278,6 +273,12 @@ public class BGPTablePanel extends JPanel {
 				
 				// Replace the routing entry with the new list
 				bsp.currSelected.paths.put(i, newList);
+				
+				// Announce this updated path
+				ArrayList<ASNode> nodes = new ArrayList<ASNode>(bsp.currSelected.neighbors);
+				for(ASNode a : nodes) {
+					a.connect(bsp.currSelected);
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Invalid AS path string", "Input Error", JOptionPane.ERROR_MESSAGE);
 			}

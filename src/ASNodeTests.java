@@ -563,6 +563,32 @@ public class ASNodeTests {
 		System.out.println(list);
 	}
 	
+	@Test
+	public void Test12() {
+		ASNode node1 = new ASNode(1),
+			   node2 = new ASNode(2),
+			   node3 = new ASNode(3),
+			   node4 = new ASNode(4),
+			   node5 = new ASNode(5),
+			   node6 = new ASNode(6);
+		
+		node1.connect(node2);
+		node2.connect(node3);
+		node3.connect(node4);
+		node4.connect(node5);
+		node2.connect(node6);
+		
+		// Hack the path at node 2
+		ArrayList<ASNode> path = new ArrayList<ASNode>();
+		path.add(node6);
+		node2.paths.put(new Integer(5), path);
+		
+		// Announce hacked path
+		node1.connect(node2);
+		
+		
+	}
+	
 	
 	public boolean listCompare(List<ASNode> list1, List<ASNode> list2) {
 		if (list1.size() == list2.size()) {
