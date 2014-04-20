@@ -136,6 +136,21 @@ public class ASNode {
 			announceIP(p, n);
 		}
 	}
+	
+	// Note: The path is announced as-is, and incremented when adding to the
+	// neighbor's table
+	public void announceIP(PrefixPair p, NextPair n) {
+		for (ASNode a : neighbors) {
+			NextPair newPair = new NextPair(this, n.length + 1);
+			if (!(a.IPTable.keySet().contains(p) && newPair.length >= a.IPTable.get(p).length)) {
+				a.IPTable.put(p, newPair);
+				for (ASNode a2 : a.neighbors) {
+					NextPair newPair2 = new NextPair(a2, newPair.length + 1);
+					a2.announceIP(p, newPair2);
+				}
+			}
+		}
+	}
 
 	/*
 	 * EXAMPE if node is equal to is 1 and map is 2:2,3:3, returns map that is
@@ -217,21 +232,6 @@ public class ASNode {
 			/* Add current node to front of list */
 			list2.add(0, node);
 			announce(node, list2);
-		}
-	}
-
-	// Note: The path is announced as-is, and incremented when adding to the
-	// neighbor's table
-	public void announceIP(PrefixPair p, NextPair n) {
-		for (ASNode a : neighbors) {
-			NextPair newPair = new NextPair(n.node, n.length + 1); // Pair to add to this IP table
-			NextPair annPair = new NextPair(this, n.length + 1);   // Pair to announce to neighbors
-			if (!(a.IPTable.keySet().contains(p) && newPair.length >= a.IPTable.get(p).length)) {
-				a.IPTable.put(p, newPair);
-				for (ASNode a2 : a.neighbors) {
-					a2.announceIP(p, annPair);
-				}
-			}
 		}
 	}
 
