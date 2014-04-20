@@ -118,17 +118,23 @@ public class ASNode {
 		neighbors.add(node);
 		node.getNeighbors().add(this);
 		
-		// Exchange IP tables
-		for (PrefixPair p : IPTable.keySet()) {
-			announceIP(p, IPTable.get(p));
-		}
-		for (PrefixPair p : node.IPTable.keySet()) {
-			node.announceIP(p, node.IPTable.get(p));
-		}
-		
 		/* Announce each other's paths */
 		node.announce(this);
 		announce(node);
+		
+		// Exchange IP tables
+		for (PrefixPair p : IPTable.keySet()) {
+			NextPair n = new NextPair(this, IPTable.get(p).length);
+			announceIP(p, n);
+		}
+		for (PrefixPair p : node.IPTable.keySet()) {
+			NextPair n = new NextPair(node, node.IPTable.get(p).length);
+			node.announceIP(p, n);
+		}
+		for (PrefixPair p : IPTable.keySet()) {
+			NextPair n = new NextPair(this, IPTable.get(p).length);
+			announceIP(p, n);
+		}
 	}
 
 	/*
@@ -218,19 +224,12 @@ public class ASNode {
 	// neighbor's table
 	public void announceIP(PrefixPair p, NextPair n) {
 		for (ASNode a : neighbors) {
-			if (a.IPTable.keySet().contains(p)) {
-				NextPair newPair = new NextPair(n.node, n.length + 1);
-				if (newPair.length < a.IPTable.get(p).length) {
-					a.IPTable.put(p, newPair);
-					for (ASNode a2 : a.neighbors) {
-						a2.announceIP(p, newPair);
-					}
-				}
-			} else {
-				NextPair newPair = new NextPair(n.node, n.length + 1);
+			NextPair newPair = new NextPair(n.node, n.length + 1); // Pair to add to this IP table
+			NextPair annPair = new NextPair(this, n.length + 1);   // Pair to announce to neighbors
+			if (!(a.IPTable.keySet().contains(p) && newPair.length >= a.IPTable.get(p).length)) {
 				a.IPTable.put(p, newPair);
 				for (ASNode a2 : a.neighbors) {
-					a2.announceIP(p, newPair);
+					a2.announceIP(p, annPair);
 				}
 			}
 		}

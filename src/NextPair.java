@@ -23,7 +23,7 @@ public class NextPair {
 	}
 	
 	public String toString(){
-		return "Node "+node.ASNum+" length"+length;
+		return "(N=" + node.ASNum + ",L=" + length + ")";
 	}
 
 	public boolean pairEquals(NextPair obj) {
