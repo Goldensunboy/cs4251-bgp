@@ -69,7 +69,7 @@ public class ASNode {
 		return temp;
 	}
 
-	public List<ASNode> path(Map<PrefixPair, NextPair> IPTable, int IPV4) {
+	public List<ASNode> path(int IPV4) {
 		List<ASNode> list = new LinkedList<ASNode>();
 		Map<PrefixPair, NextPair> temp = IPTable;
 		while (true) {

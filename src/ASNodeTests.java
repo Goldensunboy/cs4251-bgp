@@ -559,7 +559,7 @@ public class ASNodeTests {
 		node1.connect(node2);
 		node1.connect(node3);
 		node1.connect(node4);
-		List<ASNode> list =node1.path(node1.IPTable,IPV43);
+		List<ASNode> list =node1.path(IPV43);
 		System.out.println(list);
 	}
 	

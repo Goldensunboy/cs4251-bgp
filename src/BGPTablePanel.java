@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -46,11 +47,11 @@ public class BGPTablePanel extends JPanel {
 			if(a != null) {
 				
 				// Add a button for pathing to an IP
-				JPanel pathPanel = new JPanel();
+/*				JPanel pathPanel = new JPanel();
 				JButton pathButton = new JButton("Navigate");
 				pathButton.addActionListener(new PanelPathButtonListener(bsp));
 				pathPanel.add(pathButton);
-				add(pathPanel);
+				add(pathPanel);*/
 				
 				// Add panels for each node the selected one can path to
 				for(Integer i : a.paths.keySet()) {
@@ -83,6 +84,9 @@ public class BGPTablePanel extends JPanel {
 				
 				// Add a button for adding to the IP table
 				JPanel addPanel = new JPanel();
+				JButton pathButton = new JButton("Navigate");
+				pathButton.addActionListener(new PanelPathButtonListener(bsp));
+				addPanel.add(pathButton);
 				JButton addButton = new JButton("Add entry");
 				addButton.addActionListener(new AddButtonListener(bsp));
 				addPanel.add(addButton);
@@ -155,6 +159,9 @@ public class BGPTablePanel extends JPanel {
 		}
 		public void actionPerformed(ActionEvent e) {
 			String s = JOptionPane.showInputDialog(null, "Prefix nexthop #hops:", "Add a new IP prefix", JOptionPane.PLAIN_MESSAGE);
+			if(s == null) {
+				return;
+			}
 			
 			// Make sure the input is the correct format
 			if(Pattern.matches("\\d+(\\.\\d+){3}/\\d+ \\d+ \\d+", s)) {
@@ -176,18 +183,31 @@ public class BGPTablePanel extends JPanel {
 							return;
 						}
 						break;
-					case 5:
-						if(!bsp.currSelected.neighbors.contains(new ASNode(Integer.parseInt(input[5]))) && !input[5].equals("0")) {
-							JOptionPane.showMessageDialog(null, "Next hop not a neighbor: " + Integer.parseInt(input[i]), "Input Error", JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-						break;
 					default:
 					}
 				}
 				
 				// Passed validation!
+				int IPV4 = (Integer.parseInt(input[0]) << 24) |
+						   (Integer.parseInt(input[1]) << 16) |
+						   (Integer.parseInt(input[2]) <<  8) |
+						   (Integer.parseInt(input[3]) <<  0);
+				PrefixPair newPrefix = new PrefixPair(IPV4, Integer.parseInt(input[4]));
+				int ASNodeToFind = Integer.parseInt(input[5]);
+				ASNode node = null;
+				for(ASNode n : bsp.nodeList) {
+					if(n.ASNum == ASNodeToFind) {
+						node = n;
+						break;
+					}
+				}
+				NextPair newNext = new NextPair(node, Integer.parseInt(input[6]));
 				
+				// Add to the IPTable of the selected node
+				bsp.currSelected.IPTable.put(newPrefix, newNext);
+				bsp.currSelected.announceIP(newPrefix, newNext);
+				
+				bsp.btp.populateTable(bsp.currSelected);
 				
 			} else {
 				JOptionPane.showMessageDialog(null, "Example format: 143.128.5.0/24 4 0", "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -202,6 +222,9 @@ public class BGPTablePanel extends JPanel {
 		}
 		public void actionPerformed(ActionEvent e) {
 			String s = JOptionPane.showInputDialog(null, "IP to path to:", "Where would you like to go?", JOptionPane.PLAIN_MESSAGE);
+			if(s == null) {
+				return;
+			}
 			
 			// Make sure the input is the correct format
 			if(Pattern.matches("\\d+(\\.\\d+){3}", s)) {
